@@ -1,0 +1,12 @@
+a
+{
+    background-color: white;
+    background-image: url(1.svg);
+    background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%0A%20%20%20%20width%3D%22100px%22%0A%20%20%20%20height%3D%2239.398px%22%3E%0A%20%20%20%20%3Cpath%0A%20%20%20%20%20%20%20%20d%3D%22M44.009%2C14.928c-2.1.178%2C0.279%2C21.15%2C0%2C20.752%2C0z%22%0A%20%20%20%20%2F%3E%0A%3C%2Fsvg%3E%0A);
+}
+
+b
+{
+    background: url(1.svg), url(1.svg);
+    background-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%0A%20%20%20%20width%3D%22100px%22%0A%20%20%20%20height%3D%2239.398px%22%3E%0A%20%20%20%20%3Cpath%0A%20%20%20%20%20%20%20%20d%3D%22M44.009%2C14.928c-2.1.178%2C0.279%2C21.15%2C0%2C20.752%2C0z%22%0A%20%20%20%20%2F%3E%0A%3C%2Fsvg%3E%0A), url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%0A%20%20%20%20width%3D%22100px%22%0A%20%20%20%20height%3D%2239.398px%22%3E%0A%20%20%20%20%3Cpath%0A%20%20%20%20%20%20%20%20d%3D%22M44.009%2C14.928c-2.1.178%2C0.279%2C21.15%2C0%2C20.752%2C0z%22%0A%20%20%20%20%2F%3E%0A%3C%2Fsvg%3E%0A);
+}

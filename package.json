@@ -1,0 +1,35 @@
+{
+    "name" : "procss-inline",
+    "version" : "0.1.0",
+    "description" : "Procss-plugin for inline on url()",
+    "keywords" : [ "css", "inline", "procss", "base64", "uri-encode" ],
+    "license" : "MIT",
+    "repository" : {
+        "type" : "git",
+        "url" : "https://github.com/vindm/procss-inline"
+    },
+    "homepage" : "https://github.com/vindm/procss-inline",
+    "scripts" : {
+        "test" : "jshint --config ./.jshintrc index.js ./test && jscs index.js ./test && mocha -u exports -R spec ./test"
+    },
+    "author" : {
+        "name" : "Dmitriy Vinokurov",
+        "email" : "vinokuroff.dm@gmail.com",
+        "url" : "https://github.com/vindm"
+    },
+    "dependencies" : {
+        "extend" : "^2.0.0",
+        "colors" : "^1.0.3"
+    },
+    "devDependencies" : {
+        "procss" : "git://github.com/vindm/procss.git#0.1.0",
+        "mocha" : "1.21.x",
+        "chai" : "1.9.x",
+        "jshint" : "2.5.x",
+        "jscs" : ">=1.6.x"
+    },
+    "readmeFilename" : "README.md",
+    "engines" : [
+        "node >= 0.6.0"
+    ]
+}

@@ -1,0 +1,19 @@
+.png
+{
+    background-image: url(1.png) /* procss.inline() */;
+}
+
+.gif
+{
+    background-image: url(1.gif) /* procss.inline() */;
+}
+
+.svg
+{
+    background-image: url(1.svg) /* procss.inline() */;
+}
+
+.svg.encoded
+{
+    background-image: url(1.svg) /* procss.inline(enc) */;
+}

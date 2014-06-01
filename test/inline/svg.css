@@ -1,0 +1,10 @@
+a
+{
+    background-color: white;
+    background-image: url(1.svg) /* procss.inline() */;
+}
+
+b
+{
+    background: url(1.svg), url(1.svg) /* procss.inline() */;
+}
