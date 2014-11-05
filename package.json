@@ -1,6 +1,6 @@
 {
     "name" : "procss-inline",
-    "version" : "0.1.0",
+    "version" : "0.1.1",
     "description" : "Procss-plugin for inline on url()",
     "keywords" : [ "css", "inline", "procss", "base64", "uri-encode" ],
     "license" : "MIT",
@@ -22,7 +22,7 @@
         "colors" : "^1.0.3"
     },
     "devDependencies" : {
-        "procss" : "git://github.com/vindm/procss.git#0.1.0",
+        "procss" : "git://github.com/vindm/procss.git#0.1.1",
         "mocha" : "1.21.x",
         "chai" : "1.9.x",
         "jshint" : "2.5.x",

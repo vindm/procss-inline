@@ -78,7 +78,13 @@ describe('Procss-inline', function() {
             .api({
                 input : input,
                 output : 'max_input_size',
-                plugins : [ ProcssInliner ]
+                plugins : [ {
+                    plugin : ProcssInliner,
+                    config : {
+                        max_input_size : 4096,
+                        max_based_size : 4096
+                    }
+                } ]
             })
             .then(function() {
                 ASSERT.equal(FS.readFileSync(outputFilePath, 'utf-8'), expectedFileContent);
@@ -103,7 +109,8 @@ describe('Procss-inline', function() {
                 plugins : [ {
                     plugin : ProcssInliner,
                     config : {
-                        max_input_size : 7000
+                        max_input_size : 4096,
+                        max_based_size : 4096
                     }
                 } ]
             })

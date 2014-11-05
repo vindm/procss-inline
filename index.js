@@ -1,7 +1,7 @@
 var FS = require('fs'),
     PATH = require('path'),
     EXTEND = require('extend'),
-    COLORS = require('colors'),
+    colors = require('colors'),
 
     ORIGIN_TO_URL_PROPERTIES_MAP = {
         background : 'background-image'
@@ -67,6 +67,7 @@ module.exports = (function() {
             if (basedDeclaration) {
                 // add based declaration after original
                 scope.rule.insertAfter(scope.decl, basedDeclaration);
+                scope.file.isChanged = true;
             }
         }
     };
@@ -78,9 +79,9 @@ module.exports = (function() {
  */
 ProcssInline._defaultConfig = {
     min_input_size : 0, // Minimum input file size allowed to be inlined
-    max_input_size : 4096, // Maximum input file size allowed to be inlined
+    max_input_size : 32 * 1024, // Maximum input file size allowed to be inlined
     min_inlined_size : 0, // Minimum inlined content size allowed
-    max_inlined_size : 4096, // Maximum inlined content size allowed
+    max_inlined_size : 8 * 1024, // Maximum inlined content size allowed
     content_types : { // Content-types to use
         '.gif' : 'image/gif',
         '.jpg' : 'image/jpeg',
@@ -121,11 +122,11 @@ ProcssInline.log = (function() {
      */
     return function(state, scope, additional) {
         console.log(
-            COLORS.grey(
+            colors.grey(
                 time() + ' - ' +
-                '[' + COLORS.magenta('Procss-Inline') + '] '+
-                '[' + COLORS.green(state) + '] ' +
-                COLORS.blue(PATH.relative('.', scope)) + ' ' +
+                '[' + colors.magenta('Procss-Inline') + '] '+
+                '[' + colors.green(state) + '] ' +
+                colors.blue(PATH.relative('.', scope)) + ' ' +
                 (additional || '')
             )
         );
@@ -165,14 +166,11 @@ ProcssInline.prototype._processDeclaration = function(decl) {
 };
 
 /**
- * Prepare, check and inline url
  * @private
  * @param {String} url
- * @returns {String} Inlined url
+ * @returns {String} Prepared url
  */
-ProcssInline.prototype._processUrl = function(url) {
-    var processedUrl = null;
-
+ProcssInline.prototype._prepareUrl = function(url) {
     if (url.lastIndexOf('url(', 0) === 0) {
         url = url.replace(/^url\(\s*/, '').replace(/\s*\)$/, '');
     }
@@ -180,6 +178,19 @@ ProcssInline.prototype._processUrl = function(url) {
     if (url.charAt(0) === '\'' || url.charAt(0) === '"') {
         url = url.substr(1, url.length - 2);
     }
+
+    return url;
+};
+
+/**
+ * @private
+ * @param {String} url
+ * @returns {String} Inlined url
+ */
+ProcssInline.prototype._processUrl = function(url) {
+    var processedUrl = null;
+
+    url = this._prepareUrl(url);
 
     if (this._isUrlProcessable(url)) {
         this.config.base_path &&
@@ -211,28 +222,30 @@ ProcssInline.prototype._inline = function(url) {
     try {
         based = FS.readFileSync(url, isNeedEnc ? 'utf8' : 'base64');
     } catch (e) {
-        ProcssInline.log('Failed', url, e);
+        ProcssInline.log(colors.red('Failed'), url, e);
         return null;
     }
 
     if ( ! based) {
-        console.warn('Inlining process failed: bad or empty file');
+        ProcssInline.log(colors.red('Failed'), url, 'bad or empty file');
         return null;
     }
 
     if (based.length > this.config.max_inlined_size) {
-        ProcssInline.log('Failed', url, 'based file is too big');
+        ProcssInline.log(colors.red('Failed'), url, 'based file is too big');
         return null;
     } else if (based.length < this.config.min_inlined_size) {
-        ProcssInline.log('Failed', url, 'based file is too small');
+        ProcssInline.log(colors.red('Failed'), url, 'based file is too small');
         return null;
     }
 
     based = isNeedEnc ?
-        ',' + encodeURIComponent(based) :
+        ',' + encodeURIComponent(based)
+            .replace(/%20/g, ' ')
+            .replace(/#/g, '%23') :
         ';base64,' + based;
 
-    return [ 'url(data:', contentType, based, ')' ].join('');
+    return [ 'url("data:', contentType, based, '")' ].join('');
 };
 
 /**
@@ -242,13 +255,13 @@ ProcssInline.prototype._inline = function(url) {
  */
 ProcssInline.prototype._isUrlProcessable = function(url) {
     if ([ '#', '?', '/' ].indexOf(url.charAt(0)) !== -1 || /^\w+:/.test(url)) {
-        ProcssInline.log('Failed', url, 'not allowed file path');
+        ProcssInline.log(colors.red('Failed'), url, 'not allowed file path');
 
         return false;
     }
 
     if ( ! this.config.content_types.hasOwnProperty(PATH.extname(url))) {
-        ProcssInline.log('Failed', url, 'not allowed file extension');
+        ProcssInline.log(colors.red('Failed'), url, 'not allowed file extension');
 
         return false;
     }
@@ -262,23 +275,23 @@ ProcssInline.prototype._isUrlProcessable = function(url) {
  * @returns {Boolean} Is file is valid for inlining
  */
 ProcssInline.prototype._isFileProcessable = function(filePath) {
-    var isAllowed = true,
-        stats;
+    var stats;
 
     try {
         stats = FS.statSync(filePath);
     } catch(e) {
-        console.error('Inlining process failed: ', e);
+        ProcssInline.log(colors.red('Failed'), filePath, e);
 
-        isAllowed = false;
+        return false;
     }
 
     if (
         this.config.min_input_size > stats.size ||
         this.config.max_input_size < stats.size
     ) {
-        ProcssInline.log('Failed', filePath, 'file is too big');
+        ProcssInline.log(colors.red('Failed'), filePath, 'file is too big');
+        return false;
     }
 
-    return isAllowed;
+    return true;
 };

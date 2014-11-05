@@ -7,5 +7,5 @@ a
 b
 {
     background: url(1.svg), url(big.svg);
-    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgICB3aWR0aD0iMTAwcHgiCiAgICBoZWlnaHQ9IjM5LjM5OHB4Ij4KICAgIDxwYXRoCiAgICAgICAgZD0iTTQ0LjAwOSwxNC45MjhjLTIuMS4xNzgsMC4yNzksMjEuMTUsMCwyMC43NTIsMHoiCiAgICAvPgo8L3N2Zz4K), url(big.svg);
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgICB3aWR0aD0iMTAwcHgiCiAgICBoZWlnaHQ9IjM5LjM5OHB4Ij4KICAgIDxwYXRoCiAgICAgICAgZD0iTTQ0LjAwOSwxNC45MjhjLTIuMS4xNzgsMC4yNzksMjEuMTUsMCwyMC43NTIsMHoiCiAgICAvPgo8L3N2Zz4K"), url(big.svg);
 }
